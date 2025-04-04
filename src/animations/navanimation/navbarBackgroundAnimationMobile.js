@@ -15,6 +15,16 @@ const navBackgroundAnimationMobile = () => {
   if (pathname.includes("charter") || pathname.includes("purchase")) {
     gsap.set(targets, { filter: `invert(100%)` });
     gsap.set(navbar, { backgroundColor: "var(--bs-cream)" });
+    let ham=document.querySelector(".hamburger");
+    if (ham) {
+      console.log("🚀 ~ navBackgroundAnimation ~ ham:", ham);
+    
+      setTimeout(() => {
+        ham.style.setProperty("filter", "invert(100%)", "important");
+      }, 1); // 1-second delay
+    } else {
+      console.log("no ham");
+    }
     return;
   } 
 
