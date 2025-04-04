@@ -1,5 +1,4 @@
 import navAnimation from './animations/navanimation';
-import imageTransition from './animations/image-transition';
 import homeLeave from './animations/image-transition/homeleave';
 import initializeSwipers from './animations/crousel/initializeSwipers';
 import projectLeave from './animations/image-transition/projectleave';

@@ -52,7 +52,17 @@ const navBackgroundAnimation = (namespace) => {
     setTimeout(() => ScrollTrigger.refresh(), 100);
 
   } else if (namespace === "project") {
-    // If hero is not defined, set navbar to the final state immediately
+    let ham=document.querySelector(".hamburger");
+    if (ham) {
+      console.log("🚀 ~ navBackgroundAnimation ~ ham:", ham);
+    
+      setTimeout(() => {
+        ham.style.setProperty("filter", "invert(100%)", "important");
+      }, 1); // 1-second delay
+    } else {
+      console.log("no ham");
+    }
+    
     gsap.set(targets, { filter: `invert(100%)` });
     gsap.set(navbar, { backgroundColor: "var(--bs-cream)" });
   }
