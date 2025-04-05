@@ -15,7 +15,6 @@ import navBackgroundAnimationMobille from './animations/navanimation/navbarBackg
 import convertToAnchor from './utlis/converttoanchor';
 import checkRoute from './utlis/checkRoute';
 import { restartWebflow } from '@finsweet/ts-utils';
-// import smoothScroll from "./animations/smooth/smoothscroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,11 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// window.addEventListener("load", () => {
-//   window.scrollTo(0, 0);
-// });
+window.addEventListener('popstate', () => {
+  // If Barba wrapper is not on the page, and user goes back, reload the page
+  if (!document.querySelector('[data-barba="wrapper"]')) {
+    location.reload();
+  }
+});
 
-if (window.innerWidth > 766) {
+
+if (window.innerWidth > 766 && document.querySelector('[data-barba="wrapper"]')) {
   let prevLink = null;
 
   barba.hooks.beforeEnter(({ next, trigger }) => {
@@ -63,11 +66,19 @@ if (window.innerWidth > 766) {
   });
 
   barba.init({
+    timeout: 7000,
     views: [
       {
         namespace: 'project',
-        beforeEnter() {
+        beforeEnter(data) {
           instantScroll();
+           // Check if we're navigating from one project page to another
+        if (data.current.namespace === 'project' && data.next.namespace === 'project') {
+          // Trigger a page reload if URLs are different (i.e., navigating between different project pages)
+          if (data.current.url !== data.next.url) {
+            window.location.reload();
+          }
+        }
         },
         afterEnter() {
           initializeSwipers();
@@ -98,6 +109,7 @@ if (window.innerWidth > 766) {
           }
         },
       },
+    
     ],
     transitions: [
       {
@@ -124,6 +136,7 @@ if (window.innerWidth > 766) {
           await projectLeave(current, targetTrigger);
         },
       },
+     
     ],
   });
 }
