@@ -32,6 +32,14 @@ const navBackgroundAnimationMobile = () => {
   }
 
   if (pathname === '/') {
+    const cream = getComputedStyle(document.documentElement)
+      .getPropertyValue('--inital-logo-color')
+      .trim();
+    const blue = getComputedStyle(document.documentElement)
+      .getPropertyValue('--bleu-soverain-bleu')
+      .trim();
+    const interpolateColor = gsap.utils.interpolate(cream, blue);
+
     ScrollTrigger.create({
       trigger: hero,
       start: 'top top',
@@ -41,6 +49,12 @@ const navBackgroundAnimationMobile = () => {
         const invertValue = progress * 100;
         gsap.to(targets, {
           filter: `invert(${invertValue}%)`,
+          duration: 0.1,
+          overwrite: 'auto',
+        });
+        gsap.to('.navbar-log h2', {
+          filter: 'invert(0%)',
+          color: interpolateColor(progress),
           duration: 0.1,
           overwrite: 'auto',
         });

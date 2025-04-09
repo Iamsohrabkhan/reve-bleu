@@ -8,6 +8,11 @@ let scrollTriggerInstance = null; // Store ScrollTrigger instance globally
 const navBackgroundAnimation = (namespace) => {
   const navbar = document.querySelector('.navbar-home');
   const hero = document.querySelector('.home-hero');
+  const cream = getComputedStyle(document.documentElement).getPropertyValue('--inital-logo-color').trim();
+const blue = getComputedStyle(document.documentElement).getPropertyValue('--bleu-soverain-bleu').trim();
+
+// Function to interpolate color based on progress (0 to 1)
+const getInterpolatedColor = gsap.utils.interpolate(cream, blue);
 
   if (!navbar) return;
 
@@ -27,7 +32,7 @@ const navBackgroundAnimation = (namespace) => {
     // Set navbar and targets immediately based on initial scroll position
     gsap.set(targets, { filter: `invert(${initialProgress * 100}%)` });
     gsap.set(navbar, { backgroundColor: `rgba(244, 243, 241, ${initialProgress})` });
-    gsap.set('.navbar-log h2', { color: 'var(--bs-cream)' });
+    gsap.set('.navbar-log h2', { color: getInterpolatedColor(initialProgress), filter: 'invert(0%)' });
 
     // Create a new ScrollTrigger instance
     scrollTriggerInstance = ScrollTrigger.create({
@@ -36,11 +41,17 @@ const navBackgroundAnimation = (namespace) => {
       end: 'bottom 100vh',
       scrub: true,
       onUpdate({ progress }) {
-        gsap.to(targets, {
+        gsap.to(['.hamburger', '.navbar-home .cta-01'], {
           filter: `invert(${progress * 100}%)`,
           duration: 0.1,
           overwrite: 'auto',
         });
+        gsap.to('.navbar-log h2', {
+          color: getInterpolatedColor(progress),
+          duration: 0.1,
+          overwrite: 'auto',
+        });
+
         gsap.to(navbar, {
           backgroundColor: `rgba(244, 243, 241, ${progress})`,
           duration: 0.1,
