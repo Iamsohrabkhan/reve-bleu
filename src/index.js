@@ -10,19 +10,21 @@ import cursor from './animations/image-transition/cursor';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gsap from 'gsap';
 import navBackgroundAnimation from './animations/navanimation/navbarbackgroundanimation';
-import navBackgroundAnimationMobille from './animations/navanimation/navbarBackgroundAnimationMobile';
+
 
 import convertToAnchor from './utlis/converttoanchor';
 import checkRoute from './utlis/checkRoute';
-import { restartWebflow } from '@finsweet/ts-utils';
+import { restartWebflow, WEBFLOW_BREAKPOINTS } from '@finsweet/ts-utils';
+import navBackgroundAnimationMobile from './animations/navanimation/navbarBackgroundAnimationMobile';
 
 gsap.registerPlugin(ScrollTrigger);
+
 
 document.addEventListener('DOMContentLoaded', () => {
   navAnimation();
   if (window.innerWidth < 766) {
     initializeSwipers();
-    navBackgroundAnimationMobille();
+    navBackgroundAnimationMobile();
   }
 
   const navElement = document.querySelector('.navbar-home');
@@ -33,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('popstate', () => {
-  // If Barba wrapper is not on the page, and user goes back, reload the page
   if (!document.querySelector('[data-barba="wrapper"]')) {
     location.reload();
   }
@@ -55,7 +56,7 @@ if (window.innerWidth > 766 && document.querySelector('[data-barba="wrapper"]'))
     if (videos) {
       videos.forEach((video) => {
         video.autoplay = true;
-        video.load(); // Ensure the autoplay is triggered
+        video.load();
       });
     }
   });
@@ -72,9 +73,7 @@ if (window.innerWidth > 766 && document.querySelector('[data-barba="wrapper"]'))
         namespace: 'project',
         beforeEnter(data) {
           instantScroll();
-           // Check if we're navigating from one project page to another
         if (data.current.namespace === 'project' && data.next.namespace === 'project') {
-          // Trigger a page reload if URLs are different (i.e., navigating between different project pages)
           if (data.current.url !== data.next.url) {
             window.location.reload();
           }

@@ -8,9 +8,7 @@ const imageshover = () => {
   const navItems = document.querySelectorAll(".nav-links .nav-link");
   const cross = document.querySelector(".cross-icon");
   cross.addEventListener("click", () => {
-    lastHoveredIndex = 0;
-    console.log("cross clicked");
-    
+    lastHoveredIndex = 0;    
   });
 
   // Set active class based on current path
